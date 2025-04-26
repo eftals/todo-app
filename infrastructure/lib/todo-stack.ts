@@ -5,14 +5,22 @@ import * as sqs from 'aws-cdk-lib/aws-sqs';
 import * as sns from 'aws-cdk-lib/aws-sns';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { Construct } from 'constructs';
+import * as fs from 'fs';
+import * as path from 'path';
 
 export class TodoStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
+    // Load table schema from JSON
+    const schemaPath = path.join(__dirname, '..', 'todo-table-schema.json');
+    const schema = JSON.parse(fs.readFileSync(schemaPath, 'utf-8'));
+
     // DynamoDB table
     const todoTable = new dynamodb.Table(this, 'TodoTable', {
-      partitionKey: { name: 'id', type: dynamodb.AttributeType.STRING },
+      tableName: schema.TableName,
+      partitionKey: { name: 'username', type: dynamodb.AttributeType.STRING },
+      sortKey: { name: 'date', type: dynamodb.AttributeType.STRING },
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });

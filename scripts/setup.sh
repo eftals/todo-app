@@ -14,6 +14,19 @@ if ! command -v docker-compose &> /dev/null; then
     exit 1
 fi
 
+# Check for .NET SDK
+if ! command -v dotnet &> /dev/null; then
+    echo ".NET SDK is not installed. Please install .NET 8.0 SDK first."
+    exit 1
+fi
+
+# Verify .NET SDK version
+DOTNET_VERSION=$(dotnet --version)
+if [[ ! $DOTNET_VERSION =~ ^8\. ]]; then
+    echo "This project requires .NET 8.0 SDK. Current version: $DOTNET_VERSION"
+    exit 1
+fi
+
 # Install Pants
 echo "Installing Pants build system..."
 curl --proto '=https' --tlsv1.2 -fsSL https://static.pantsbuild.org/setup/get-pants.sh | bash
@@ -24,5 +37,9 @@ mkdir -p volume/localstack
 # Install Node.js dependencies
 echo "Installing Node.js dependencies..."
 npm install
+
+# Restore .NET dependencies
+echo "Restoring .NET dependencies..."
+dotnet restore backend/backend.csproj
 
 echo "Setup completed successfully!" 

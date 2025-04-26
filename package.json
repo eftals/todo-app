@@ -10,7 +10,11 @@
     "test": "node scripts/test.js",
     "deploy": "node scripts/deploy.js",
     "init-localstack": "node scripts/init-localstack.js",
-    "verify-init": "node scripts/verify-localstack-init.js"
+    "verify-init": "node scripts/verify-localstack-init.js",
+    "build:dotnet": "dotnet build backend/backend.csproj --configuration Release",
+    "build": "npm run build:dotnet",
+    "test:dotnet": "dotnet test backend/backend.csproj --configuration Release --no-build",
+    "test:all": "npm run test && npm run test:dotnet"
   },
   "dependencies": {
     "cross-env": "^7.0.3"

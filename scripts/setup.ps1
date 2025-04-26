@@ -12,6 +12,19 @@ if (!(Get-Command docker-compose -ErrorAction SilentlyContinue)) {
     exit 1
 }
 
+# Check for .NET SDK
+if (!(Get-Command dotnet -ErrorAction SilentlyContinue)) {
+    Write-Host ".NET SDK is not installed. Please install .NET 8.0 SDK first."
+    exit 1
+}
+
+# Verify .NET SDK version
+$dotnetVersion = dotnet --version
+if ($dotnetVersion -notmatch "^8\.") {
+    Write-Host "This project requires .NET 8.0 SDK. Current version: $dotnetVersion"
+    exit 1
+}
+
 # Install Pants
 Write-Host "Installing Pants build system..."
 Invoke-WebRequest -Uri "https://static.pantsbuild.org/setup/get-pants.sh" -OutFile "get-pants.sh"
@@ -25,5 +38,9 @@ New-Item -ItemType Directory -Force -Path "volume/localstack"
 # Install Node.js dependencies
 Write-Host "Installing Node.js dependencies..."
 npm install
+
+# Restore .NET dependencies
+Write-Host "Restoring .NET dependencies..."
+dotnet restore backend/backend.csproj
 
 Write-Host "Setup completed successfully!" 

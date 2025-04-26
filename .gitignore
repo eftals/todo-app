@@ -50,3 +50,20 @@ build/
 coverage/
 *.egg-info/
 .eggs/
+
+# .NET
+bin/
+obj/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+.vs/
+*.dbmdl
+*.jfm
+*.pfx
+*.publishsettings
+orleans.codegen.cs
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
