@@ -5,7 +5,7 @@ set -e
 REQUIRED_SERVICES=(dynamodb sqs sns s3 lambda)
 
 for i in {1..30}; do
-  response=$(curl -s http://localhost:4566/health)
+  response=$(curl -s http://localhost:4566/_localstack/health)
   all_running=true
   for service in "${REQUIRED_SERVICES[@]}"; do
     status=$(echo "$response" | jq -r ".services.$service")

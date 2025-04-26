@@ -9,7 +9,7 @@ $success = $false
 
 while ($attempt -lt $maxAttempts -and -not $success) {
     try {
-        $response = Invoke-RestMethod -Uri "http://localhost:4566/health"
+        $response = Invoke-RestMethod -Uri "http://localhost:4566/_localstack/health"
         $allRunning = $true
         foreach ($service in $requiredServices) {
             if ($response.services.$service -ne 'running') {

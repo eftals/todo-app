@@ -1,4 +1,4 @@
-# PowerShell script to check LocalStack /health endpoint for any valid JSON response
+# PowerShell script to check LocalStack /_localstack/health endpoint for any valid JSON response
 
 Write-Host "Checking LocalStack health (any valid JSON response)..."
 
@@ -8,9 +8,9 @@ $success = $false
 
 while ($attempt -lt $maxAttempts -and -not $success) {
     try {
-        $response = Invoke-RestMethod -Uri "http://localhost:4566/health"
+        $response = Invoke-RestMethod -Uri "http://localhost:4566/_localstack/health"
         if ($response) {
-            Write-Host "LocalStack /health endpoint returned valid JSON!"
+            Write-Host "LocalStack /_localstack/health endpoint returned valid JSON!"
             $success = $true
             exit 0
         }
@@ -18,11 +18,11 @@ while ($attempt -lt $maxAttempts -and -not $success) {
         # Ignore errors and retry
     }
     $attempt++
-    Write-Host "Waiting for valid JSON from /health... ($attempt of $maxAttempts)"
+    Write-Host "Waiting for valid JSON from /_localstack/health... ($attempt of $maxAttempts)"
     Start-Sleep -Seconds 1
 }
 
 if (-not $success) {
-    Write-Host "LocalStack /health did not return valid JSON in time."
+    Write-Host "LocalStack /_localstack/health did not return valid JSON in time."
     exit 1
 } 

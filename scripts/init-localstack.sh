@@ -59,6 +59,17 @@ aws --endpoint-url=http://localhost:4566 lambda create-function \
   --zip-file fileb://infrastructure/lambda/function.zip \
   --role arn:aws:iam::000000000000:role/lambda-role
 
+# Wait for Lambda function to become active
+for i in {1..30}; do
+  state=$(aws --endpoint-url=http://localhost:4566 lambda get-function-configuration --function-name todo-function | jq -r '.State')
+  if [[ "$state" == "Active" ]]; then
+    echo "Lambda function is active!"
+    break
+  fi
+  echo "Waiting for Lambda function to become active... ($i/30)"
+  sleep 1
+done
+
 # Set environment variables for Lambda
 aws --endpoint-url=http://localhost:4566 lambda update-function-configuration \
   --function-name todo-function \
