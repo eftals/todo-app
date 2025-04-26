@@ -1,0 +1,21 @@
+{
+  "name": "todo-app",
+  "version": "1.0.0",
+  "description": "Todo application with ASP.NET, React, and AWS services",
+  "scripts": {
+    "setup": "node scripts/setup.js",
+    "start": "node scripts/start.js",
+    "stop": "node scripts/stop.js",
+    "clean": "node scripts/clean.js",
+    "test": "node scripts/test.js",
+    "deploy": "node scripts/deploy.js",
+    "init-localstack": "node scripts/init-localstack.js",
+    "verify-init": "node scripts/verify-localstack-init.js"
+  },
+  "dependencies": {
+    "cross-env": "^7.0.3"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+} 

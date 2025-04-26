@@ -1,0 +1,27 @@
+[GLOBAL]
+pants_version = "2.17.0"
+plugins = [
+    "pantsbuild.pants.contrib.go",
+    "pantsbuild.pants.contrib.node",
+    "pantsbuild.pants.contrib.scalajs",
+]
+
+[source]
+root_patterns = [
+    "backend",
+    "frontend",
+    "infrastructure",
+]
+
+[python]
+interpreter_constraints = [">=3.8"]
+
+[node]
+package_manager = "npm"
+version = "10.2.4"
+
+[dotnet]
+version = "8.0"
+
+[test]
+report = true 
